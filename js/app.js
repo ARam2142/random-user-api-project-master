@@ -1,47 +1,59 @@
 const genButton = document.getElementById('btn');
 
-function loadProfiles() {
-    const xhr = new XMLHttpRequest();
-    const url = 'https://randomuser.me/api/';
+const photo = document.getElementById('photo');
+const firstName = document.getElementById('first');
+const lastName = document.getElementById('last');
+const street = document.getElementById('street');
+const phone = document.getElementById('phone');
+const email = document.getElementById('email');
 
-    xhr.open('GET', url, true);
+function getData() {
+  const xml = new XMLHttpRequest();
 
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            const profile = JSON.parse(xhr.responseText)
-            console.log(profile);
+  xml.open('GET', 'https://randomuser.me/api', true);
 
-            let output = `
-              <img src="${profile.results[0].picture.medium}" class="card-img-top" alt="im fred" id="photo">
-            <p class="text-capitalize"><span class="mr-3 text-primary"><i class="fas fa-user"></i></span>first name :<span
-                  id="first" class="text-uppercase ml-2 badge badge-secondary single-info">${profile.results[0].name.first}</span></p>
+  xml.onload = function () {
+    if (this.status === 200) {
+      const response = JSON.parse(this.response);
+      console.log(response)
 
-              <p class="text-capitalize"><span class="mr-3 text-primary"><i class="fas fa-user"></i></span>last name
-                :<span id="last" class="text-uppercase ml-2 badge badge-secondary single-info">${profile.results[0].name.last}</span></p>
+      let output = `
+      <img src=${response.results[0].picture.large} class="card-img-top" alt="im fred" id="photo"></img>`;
 
-              <p class="text-capitalize"><span class="mr-3 text-primary"><i
-                    class="fas fa-search-location"></i></span>location
-                :<span id="street" class="text-uppercase ml-2 badge badge-secondary single-info">${profile.results[0].location.city}</span>
-              </p>
-
-              <p class="text-capitalize"><span class="mr-3 text-primary"><i class="fas fa-phone"></i></span>phone :<span
-                  id="phone" class="text-uppercase ml-2 badge badge-secondary single-info">${profile.results[0].phone}</span></p>
-
-              <p class="text-capitalize"><span class="mr-3 text-primary"><i class="fas fa-envelope"></i></span>email
-                :<span id="email" class="text-uppercase ml-2 badge badge-secondary single-info">${profile.results[0].email}</span>
-              </p>
-            `;
+      photo.src = output
 
 
-            document.querySelector('.card').innerHTML = output;
+      firstName.innerHTML = response.results[0].name.first;
+      lastName.innerHTML = response.results[0].name.last;
+      street.innerHTML = response.results[0].location.street.name;
+      phone.innerHTML = response.results[0].phone;
+      email.innerHTML = response.results[0].email;
 
-
-        }
-
-    }
-
-    xhr.send()
+    };
+  };
+  xml.send()
 
 }
 
-genButton.addEventListener("click", loadProfiles)
+genButton.addEventListener("click", getData)
+
+
+// let output = `
+//             <p class="text-capitalize"><span class="mr-3 text-primary"><i class="fas fa-user"></i></span>first name :<span
+//                   id="first" class="text-uppercase ml-2 badge badge-secondary single-info">${profile.results[0].name.first}</span></p>
+
+//               <p class="text-capitalize"><span class="mr-3 text-primary"><i class="fas fa-user"></i></span>last name
+//                 :<span id="last" class="text-uppercase ml-2 badge badge-secondary single-info">${profile.results[0].name.last}</span></p>
+
+//               <p class="text-capitalize"><span class="mr-3 text-primary"><i
+//                     class="fas fa-search-location"></i></span>location
+//                 :<span id="street" class="text-uppercase ml-2 badge badge-secondary single-info">${profile.results[0].location.city}</span>
+//               </p>
+
+//               <p class="text-capitalize"><span class="mr-3 text-primary"><i class="fas fa-phone"></i></span>phone :<span
+//                   id="phone" class="text-uppercase ml-2 badge badge-secondary single-info">${profile.results[0].phone}</span></p>
+
+//               <p class="text-capitalize"><span class="mr-3 text-primary"><i class="fas fa-envelope"></i></span>email
+//                 :<span id="email" class="text-uppercase ml-2 badge badge-secondary single-info">${profile.results[0].email}</span>
+//               </p>
+//             `;
