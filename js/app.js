@@ -17,12 +17,7 @@ function getData() {
       const response = JSON.parse(this.response);
       console.log(response)
 
-      let output = `
-      <img src=${response.results[0].picture.large} class="card-img-top" alt="im fred" id="photo"></img>`;
-
-      photo.src = output
-
-
+      photo.src = response.results[0].picture.large
       firstName.innerHTML = response.results[0].name.first;
       lastName.innerHTML = response.results[0].name.last;
       street.innerHTML = response.results[0].location.street.name;
